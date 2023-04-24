@@ -1,0 +1,32 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<h1 style="text-align: center;">Search Results</h1>
+<br>
+<div class="row">
+	{% for product in products %}
+	<div class="col-lg-4">
+		<img class="thumbnail" src="{{ product.get_imageURL }}">
+		<div class="box-element product">
+			<h6><strong>{{product.name}}</strong></h6>
+			<hr>
+
+			<button class="update_cart btn btn-danger add-btn" style="border-radius: 5px;" product_id="{{product.id}}">Add to
+				Cart</button>
+				
+
+			<a class="btn btn-outline-dark" style="border-radius: 5px;" href="{% url 'item_detail' product.id %}">View</a>
+			<h4 style="display: inline-block;" ><strong>&#8377;{{product.price}}</strong></h4>
+
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+<br><br>
+<blockquote class="blockquote text-center">
+	<p class="mb-0"></p>
+	<footer class="blockquote-footer"> You've scrolled to the end of the list!</footer>
+</blockquote>
+
+{% endblock content %}

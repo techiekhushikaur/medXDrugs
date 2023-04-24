@@ -1,0 +1,8 @@
+{% load static %}
+<blockquote class="blockquote text-center" style="text-align: center; padding-top: 100;">
+	<h1><p class="mb-0" style="color:Green">** Payment Successful **</p></h1>
+	<img src="{% static 'images/paymentsuccessful.gif' %}" alt="" height="200px" width="200px">
+	<h3><p style="color:green">Go Back ! Check your orders - </p></h3>
+	<br>
+	<a class="btn btn-secondary mb-2" href="{% url 'order_details' %}" >View Order</a>
+</blockquote>

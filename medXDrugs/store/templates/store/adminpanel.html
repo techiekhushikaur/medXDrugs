@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxscdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+    crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'store/css/main.css' %}">
+    
+</head>
+<body>
+    <nav class="navbar nav_bar navbar-expand-lg ">
+		<h1 style="margin-left:0.4rem"><strong><a class="navbar-brand" href="{% url 'store' %}" style="color: white; margin-top: 1.5rem;">MED-<span style="color: #e43b4f">e</span>-CARE<br>
+			<p style=" color: #e43b4f; position: relative; font-size: 1rem;">Your <span style="color: white">e</span>-Pharmasist</p></a></strong></h1>
+	
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<h5><strong><a class="nav-link" href="{% url 'store' %}" style="color: white"><span
+									class="sr-only">(current)</span></a></strong></h5>
+				</li>
+
+			</ul>
+			<div class="form-inline my-2 my-lg-0 ">
+
+				<form method="get" class="form-inline my-2 my-lg-0 mr-sm-5" style="margin-left:-10px;">
+                    <span><a href="/adminpanel" style="text-decoration: none;"><div id="home">&#8962;</div> <div id="home_div">Home</div></a></span>
+          
+                    <input id="s_box" type="search" name="search_query" aria-label="Search" placeholder="Search for Medicine & Wellness products.."
+						class="form-control mr-sm-2">
+					<button class="btn btn-success my-2 mr-sm-3 btn-grad" type="submit">Search</button>
+				</form>
+
+				
+				{% if request.user.is_authenticated %}
+				<h5 class=" hovering"><strong><a href="{% url 'ngoverify' %}" class="hovering" style="color: white; ">Verify NGOs</a></strong>
+				</h5>
+                <p id="cart-total" class="mr-sm-3">{{t_ngo}}</p>
+				<h5 class="mr-sm-3 hovering"><strong><a href="{% url 'user_logout' %}" class="hovering" style="color: white; ">Logout</a></strong>
+				</h5>
+                
+				{% if request.user.profile.photo %}
+				<a href="{% url 'profilepage' username=user.username %}"><img class="mr-sm-1"
+						src="{{ request.user.profile.photo.url }}" width="35" height="35"></a>
+				{% else %}
+				<a href="{% url 'profilepage' username=user.username %}"><img class="mr-sm-1"
+						src="/static/images/default.png" width="35" , height="35" style="border-radius: 50%;"></a>
+				{% endif %}
+				<h5 class="mr-sm-3 hovering"><strong><a href="{% url 'profilepage' username=request.user.username %}"
+							style="color: white" class="hovering">{{request.user.username}}</a></strong></h5>
+
+				{% else %}
+                
+				<h5 class="mr-sm-3 hovering"><strong><a href="{% url 'user_login' %}" class="hovering" style="color: white">Login</a></strong>
+				</h5>
+				<div>
+					<h5 class="mr-sm-3 hovering"><strong><a href="{% url 'register' %}" class="hovering" style="color: white">SignUp</a></strong>
+					</h5>
+				</div>
+				{% endif %}
+				
+			</div>
+		</div>
+	</nav>
+ 
+    <div class="jumbotron jumbotron-fluid" >
+        <div class="container container-fluid ">
+            {% block item %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <footer class="footer">
+		<p style="text-align: center; margin:0;">Copyright © MED-e-CARE The Saviours 2023</p>
+	</footer>
+
+
+
+</body>
+<style>
+	
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif
+        
+    }
+    body
+    {background-color:  #e9ecef;}
+    .l{border: none;}
+    .l:hover{
+        color: black;
+        background-color: #e43b4f4f !important;
+            
+            border-radius: 10px;}
+            #home
+    {
+        font-size:40px;
+        margin: -22px 16px 0 0px;
+        padding: 0;
+        color: white;
+    }
+    #home_div
+    {
+        margin:-14px 0 0 -11px;
+         color: white
+    }
+    .carting:hover{
+        box-shadow:0 0 10px #ddd ;
+        border-radius: 30%;
+    }
+    .map-container-section {
+                overflow: hidden;
+                padding-bottom: 56.25%;
+                position: relative;
+                height: 0;
+            }
+    
+            .map-container-section iframe {
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+            }
+    
+    .bgImage {
+        width: 100%;
+        height: 90vh;
+        background: url({% static 'images/pic.jpg' %});
+        background-size: cover;
+        background-position: center;
+        
+    }
+    
+    .nav_bar {
+        width: 100%;
+        height: 80px;
+        background-color: #220404;
+        color: black;
+        border-bottom: 2 px solid rgb(0, 0, 0);
+        z-index:4;
+        
+    }
+    
+    #s_box
+    {
+        background-color: rgb(236, 233, 233);
+        position: relative;
+        border:none;
+        width:500px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+             
+    .btn-grad 
+       {
+                background-image: linear-gradient(to right, #D31027 0%, #EA384D  51%, #D31027  100%);
+                text-align: center;
+                width:7rem;
+                transition: 0.5s;
+                background-size: 200% auto;
+                color: white;     
+                border: none;       
+                border-radius: 6px;
+                display: block;
+              }
+    
+    .btn-grad:hover {
+                background-position: right center; /* change the direction of the change here */
+                color: #fff;
+                
+                text-decoration: none;
+              }
+    
+    .hovering
+    {
+        margin-top: 0.5rem;
+        text-decoration: none;
+    }
+    
+    .hovering:hover
+    {
+        color:#e43b4f !important;
+        text-decoration:none;
+        
+    
+    }
+             
+    .overay {
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.1);
+    }
+    
+    .text {
+        position: absolute;
+        top: 35%;
+        right: 1%;
+        color: rgb(15, 15, 15);
+        z-index: 2;
+        width: 500px;
+        height: 300px;
+        background: transparent;
+    }
+    
+    .footer{
+		background-color: rgb(31, 31, 31);
+		color: white;
+		margin-bottom: 0;
+		padding:12px;
+	}
+      .wrapper .static-txt{
+        color: #fff;
+        font-size: 60px;
+        font-weight: 400;
+      }
+      .wrapper .dynamic-txts{
+        margin-left: 15px;
+        height: 90px;
+        line-height: 90px;
+        overflow: hidden;
+      }
+    .dynamic-txts li{
+        list-style: none;
+        color: rgb(172, 32, 55);
+        font-size: 60px;
+        font-weight: 500;
+        position: relative;
+        top: 0;
+        animation: slide 12s steps(4) infinite;
+      }
+      @keyframes slide {
+        100%{
+          top: -360px;
+        }
+      }
+      .dynamic-txts li span{
+        position: relative;
+        margin: 5px 0;
+        line-height: 90px;
+      }
+      .dynamic-txts li span::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        height: 120%;
+        width: 100%;
+        background: #e2beb5;
+        border-left: 1px solid #d24041;
+        animation: typing 3s steps(10) infinite;
+      }
+      @keyframes typing {
+        40%, 60%{
+          left: calc(100% + 30px);
+        }
+        100%{
+          left: 0;
+        }
+      }
+    .box-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 3;
+    }
+    .box-area li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(226, 56, 56, 0.253);
+        animation: animate 20s linear infinite;
+        bottom: -150px;
+    }
+    .box-area li:nth-child(1) {
+        left: 86%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+    }
+    .box-area li:nth-child(2) {
+        left: 12%;
+        width: 30px;
+        height: 30px;
+        animation-delay: 1.5s;
+        animation-duration: 10s;
+    }
+    .box-area li:nth-child(3) {
+        left: 70%;
+        width: 50px;
+        height: 50px;
+        border-radius: 100px;
+        animation-delay: 5.5s;
+    }
+    .box-area li:nth-child(4) {
+        left: 42%;
+        width: 100px;
+        height: 100px;
+        border-radius: 100px;
+        animation-delay: 0s;
+        animation-duration: 15s;
+    }
+    .box-area li:nth-child(5) {
+        left: 65%;
+        width: 10px;
+        height: 10px;
+        animation-delay: 0s;
+    }
+    .box-area li:nth-child(6) {
+        left: 15%;
+        width: 110px;
+        height: 110px;
+        animation-delay: 3.5s;
+    }
+    @keyframes animate {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-800px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+
+<script src="{% static 'store/js/charts.js' %}"></script>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'accounts/register.html' %}
+{% load crispy_forms_tags %}
+{% block content %}	
+<h1 class="display-5" style="color:rgb(172, 32, 55) ; text-align: center; margin-top: 1.5rem;">Welcome Back!</h1>
+<h4 style=" text-align: center;">Login to Continue</h4>	
+<form method="POST" >
+		
+	{% csrf_token %}
+	{{ form|crispy }}
+	
+	
+	
+	<input type="submit" style="border:none;"class="btn  mb-2 btn-grad" name="submit" , value='Login'>
+</form>
+<div style="margin-bottom:1rem">
+<a class="align-middle" href="{% url 'password_reset' %}" style="color:rgb(172, 32, 55);">Forgotten Your password?</a><br>
+<h6 class="align-middle mt-2">OR</h6>
+<a class="align-middle" href="{% url 'register' %}" style="color:rgb(172, 32, 55); ">Create a new account!</a>
+</div>
+ {% endblock %}
+		  

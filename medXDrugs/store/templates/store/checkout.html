@@ -1,0 +1,154 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<h2>Checkout Page :</h2>
+     <div class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				<form method="POST" action="{% url 'checkout'%}">
+					{% csrf_token %}
+					{{ form|crispy }}
+					<br>
+					<input type="submit" class="btn btn-primary mb-2" name="submit" , value='Add Address'>	
+				</form>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+				<hr>
+				<h3>Order Summary<button type="button" class="btn btn-grad btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					Apply Code
+				  </button></h3>
+				
+				<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+
+	
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="exampleModalLabel" style="color:#e43b4f;  font-weight:bold;">Apply Coupon Code</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div style="margin-bottom:3rem ;">
+			<div class="list-group">
+				<button type="button" onclick="dis(1)" class="l list-group-item list-group-item-action" data-bs-dismiss="modal" >
+				  Get 20% OFF upto  &#8377;75<span style="margin-left: 12.5rem; background-color: rgba(224, 91, 91, 0.644); color:rgb(3, 3, 3); padding:6px; border: 1px dashed red; font-weight:500; ">MEDYH</span></button>
+				<hr>
+				<button type="button" onclick="dis(2)" class="l list-group-item list-group-item-action"data-bs-dismiss="modal">Get 5% OFF upto  &#8377;75<span style="margin-left: 13rem; background-color: rgba(224, 91, 91, 0.644); color:rgb(3, 3, 3); padding:6px; border: 1px dashed red; font-weight:500; ">NDKSK</span></button>
+				<hr>
+				<button type="button" onclick="dis(3)" class="l list-group-item list-group-item-action"data-bs-dismiss="modal">Get 15% OFF upto  &#8377;75 <span style="margin-left: 12.3rem; background-color: rgba(224, 91, 91, 0.644); color:rgb(3, 3, 3); padding:6px; border: 1px dashed red; font-weight:500; ">EBNDD</span></button>
+				<hr>
+				<button type="button" onclick="dis(4)" class="l list-group-item list-group-item-action"data-bs-dismiss="modal">Get 10% OFF upto  &#8377;75<span style="margin-left: 12.5rem; background-color: rgba(224, 91, 91, 0.644); color:rgb(3, 3, 3); padding:6px; border: 1px dashed red; font-weight:500; ">RVEQB</span></button>
+				<!-- <button type="button" class="list-group-item list-group-item-action" disabled>A disabled button item</button> -->
+			  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+				<hr>
+				{% for item in items %}
+					<div class="cart-row" style="background-color: lightyellow;height: 80px">
+						<div style="flex:2"><a href="{% url 'item_detail' item.product.id %}"><img class="row-image" src="{{ item.product.get_imageURL }}" style="width: 80px; height: 80px;margin-left: 20px"></a></div>
+						<div style="flex:2"><p>{{item.product.name}}</p></div>
+						<div style="flex:1"><p>&#8377;{{item.product.price|floatformat:2}}</p></div>
+						<div style="flex:1"><p>x{{item.quantity}}</p></div>
+					</div>
+				{% endfor %}
+				<h5>Items:   {{total_item_cart}}</h5>
+				<h5 id="i">Total:   &#8377;{{total_cost_cart}};</h5>
+			</div>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	{% if request.user.is_authenticated %}
+				<h6>Use below Addresses</h6>
+				<div class="box-element">
+					{% for adr in addresses %}
+						<div class="cart-row">
+							<div>
+								<h4><strong><p>{{adr.recepient_fullname}}</p></strong></h4>
+								<div>  Phone Number :-> {{adr.phone_no}}</div>
+								<pre class="quantity"> {{adr.address_line1}},</pre>
+								<pre class="quantity">{{adr.address_line2}},</pre>
+								<pre class="quantity">{{adr.city}},</pre>
+								<pre class="quantity">{{adr.state}},</pre>
+								<pre class="quantity">{{adr.country}},</pre>
+								<pre class="quantity">{{adr.zipcode}}</pre>
+								<br>
+								<div class="quantity">
+									<pre><a href="{% url 'make_payment' adr.id %}">Use</a></pre>
+								</div>
+								<div class="quantity">
+									<pre><a href="{% url 'update_address' adr.id %}">Edit</a></pre>
+								</div>
+								<div class="quantity">
+									<pre><a href="{% url 'delete_address' adr.id %}">Delete</a></pre>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<p>* It is static website , so once you will use one of the above addresses , you will not be directed to the payment gateway , instead , you will be directed to the PAYMENT SUCCESSFUL PAGE .</p>
+	{% endif %}
+	<br><br>
+	<blockquote class="blockquote text-center">
+		<p class="mb-0">** That's it! **</p>
+		<footer class="blockquote-footer"> You've scrolled to the end of the List!</footer>
+	</blockquote>
+
+	<script>
+     let i=document.getElementById("i");
+	 let d;
+		function dis(x)
+		{
+			let ans={{total_cost_cart}};
+			
+			if(x==1)
+			{
+				d=((ans*20)/100);
+				if(d>75)
+				{d=75;}
+				i.innerHTML="<div style='color:green;'>HURRAY! You Saved &#8377;"+d+"</div>Total: &#8377;<s>"+ans+"<\s>";
+			    i.append(" "+(ans-d));		
+			}
+			if(x==2)
+			{
+				d=((ans*5)/100);
+				if(d>75)
+				{d=75;}
+				i.innerHTML="<div style='color:green;'>HURRAY! You Saved &#8377;"+d+"</div>Total: &#8377;<s>"+ans+"<\s>";
+			    i.append(" "+(ans-d));		
+			}
+			if(x==3)
+			{
+				d=((ans*15)/100);
+				if(d>75)
+				{d=75;}
+				i.innerHTML="<div style='color:green;'>HURRAY! You Saved &#8377;"+d+"</div>Total: &#8377;<s>"+ans+"<\s>";
+			    i.append(" "+(ans-d));		
+			
+				
+				
+			}
+			if(x==4)
+			{
+				d=((ans*10)/100);
+				if(d>75)
+				{d=75;}
+				i.innerHTML="<div style='color:green;'>HURRAY! You Saved &#8377;"+d+"</div>Total: &#8377;<s>"+ans+"<\s>";
+			    i.append(" "+(ans-d));		
+			}
+			
+		}
+	</script>
+{% endblock content %}

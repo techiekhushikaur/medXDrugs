@@ -1,0 +1,101 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+
+{% block silly %}
+
+<!-- Landing Page -->
+<section class="bgImage">
+
+	
+	<div class="animation-area">
+		<ul class="box-area">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+	<div class="overay">
+		{% if request.user.is_authenticated %}
+		<h1 style="text-align:center; font-size:4rem"><strong style="color:rgb(172, 32, 55)">Welcome!</strong> {{request.user.first_name}}</h1>
+		{% endif %}
+		<div class="text wrapper">
+		<span class="static-txt">Your's Own</span>
+		<ul class="dynamic-txts">
+		  <li><span>e-Pharmacist</span></li>
+		  <li><span>e-Pharmacy</span></li>
+		  <li><span>e-Supplier</span></li>                  
+		  <li><span>e-Caretaker</span></li>
+		</ul>
+	  </div>
+</div>
+
+
+</section>
+
+{% endblock %}
+
+
+{% block slider %}
+
+<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" style="box-shadow:0 0 50px rgb(172, 32, 55) ;">
+	<div class="carousel-inner">
+	  <div class="carousel-item active " data-bs-interval="1000">
+		<img src="{% static 'images/slider1.jpg' %}" class="d-block w-100" alt="...">
+	  </div>
+	  <div class="carousel-item" data-bs-interval="2000">
+		<img src="{% static 'images/slider3.jpg.' %}" class="d-block w-100" alt="...">
+	  </div>
+	  <div class="carousel-item" data-bs-interval="3000">
+		<img src="{% static 'images/slider2.jpg' %}" class="d-block w-100" alt="...">
+	  </div>
+	  <div class="carousel-item" data-bs-interval="4000">
+		<img src="{% static 'images/slider4.jpg' %}" class="d-block w-100" alt="...">
+	  </div>
+	</div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+	  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	  <span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+	  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	  <span class="visually-hidden">Next</span>
+	</button>
+  </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block content %}
+
+<h1 style="text-align: center;"> Categories</h1>
+<div class="row center">
+	{% for product in product_categories %}
+	
+		<div class="col-lg-3 center mb-4" >
+			<a  href="{% url 'show_items' product.id %}" style="width:100%; text-decoration: none;">
+		<img class="thumbnail" src="{{ product.get_imageURL }}">
+		<div class="box-element product btn-grad" style="text-align:center !important; width:100%; border-radius:5px 1px 5px 1px !important;">
+			<h6 style="color: white!important;">{{product.name}}</h6>
+		</div>
+	</a>
+	</div>
+
+	{% endfor %}
+</div>
+
+<br><br>
+
+
+
+{% endblock content %}

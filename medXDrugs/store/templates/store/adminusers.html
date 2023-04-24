@@ -1,0 +1,86 @@
+{% extends 'store/adminpanel.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block item %}
+
+<div style="height: 100vh;">
+<h1>Pending NGO Verification List</h1>
+ <hr color="#342a4e"  size="5px">
+ <div class="container overflow-x-scroll" style="border-radius: 5px;  background-color: white;">
+  <table class="table viewtable p-5" >
+    <thead>
+      <tr>
+        <!-- <th scope="col">#</th> -->
+        <th class="p-10" scope="col">Username</th>
+        <th scope="col">NGO Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Verification</th>
+
+      </tr>
+    </thead>
+    
+    <form method="POST">
+    <tbody>
+      {% for ngo in ngos %}
+        <tr>
+          <td>{{ ngo.user }}</td>
+          <td>{{ ngo.user.first_name }}</td>
+          <td>{{ ngo.user.email }}</td>
+          <td>
+            {% csrf_token %}
+            <input type="hidden" name="ids[]" value="{{ngo.id}}">
+            <select class="form-select" name="verify{{ngo.id}}">               
+                <option value="pending" class="form-control">Pending</option>
+                <option value="ok" class="form-control">Approved</option>
+                <option value="no" class="form-control">Not Approved</option>
+            </select>
+          </td>
+        </tr>
+
+      {% endfor %}
+                  
+    </tbody>
+  </table>
+  <input type="submit" style="border:none; float:right"class="btn mb-3 btn-grad" name="submit" , value='Submit'>
+              
+ </form>
+{% if ngos.has_other_pages %}
+<nav aria-label="View" class="view" >
+  <ul class="pagination justify-content-center">
+    {% if ngos.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ ngos.previous_page_number }}">&laquo;</a>
+    </li>
+    {% endif %}
+    {% for num in ngos.paginator.page_range %}
+      {% if ngos.number == num %}
+      <li class="page-item active" aria-current="page">
+        <a class="page-link" href="#">{{ num }}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+      </li>
+      {% endif %}
+    {% endfor %}
+    {% if ngos.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ ngos.next_page_number }}">&raquo;</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+</div>
+
+
+<style>
+.pagination
+{
+ font-size: 10px;
+ color: #342a4e;
+}  
+</style>
+</div>
+
+{% endblock item %}
